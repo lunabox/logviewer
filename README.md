@@ -1,2 +1,2 @@
 # logviewer
-Log file base zip format. 
+LogViewer supports view the ZIP format log file.
