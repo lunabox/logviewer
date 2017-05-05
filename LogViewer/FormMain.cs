@@ -128,6 +128,8 @@ namespace LogViewer
                     node.Nodes.Add(file).Tag = file;
                 }
             }
+            // 展开根目录
+            node.Expand();
             this.treeViewMenu.EndUpdate();
         }
 
@@ -219,7 +221,18 @@ namespace LogViewer
                 string name = this.treeViewMenu.SelectedNode.Tag.ToString();
                 parser(name);
             }
-            
+            else
+            {
+                // 如果已经展开
+                if (this.treeViewMenu.SelectedNode.IsExpanded)
+                {
+                    this.treeViewMenu.SelectedNode.Collapse();
+                }
+                else
+                {
+                    this.treeViewMenu.SelectedNode.Expand();
+                }
+            }
         }
 
         private void 导出UToolStripMenuItem_Click(object sender, EventArgs e)
@@ -249,18 +262,42 @@ namespace LogViewer
 
         private void treeViewMenu_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Node.Nodes.Count == 0)
+
+            if (e.Button == MouseButtons.Left)
             {
-                if (e.Button == MouseButtons.Left)
+                if (e.Node.Nodes.Count == 0)
                 {
                     // 叶子节点，左键点击
                     parser(e.Node.Tag.ToString());
                 }
+            }
+            else
+            {
+                // 非左键的时候，选中状态
+                this.treeViewMenu.SelectedNode = e.Node;
+            }
+
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            if (this.treeViewMenu.SelectedNode == null || this.treeViewMenu.SelectedNode.Nodes.Count > 0)
+            {
+                if (this.treeViewMenu.SelectedNode.IsExpanded)
+                {
+                    this.contextMenuStrip1.Items[0].Text = "折叠(&C)";
+                }
                 else
                 {
-                    // 非左键的时候，选中状态
-                    this.treeViewMenu.SelectedNode = e.Node;
+                    this.contextMenuStrip1.Items[0].Text = "展开(&E)";
                 }
+                // 非叶子节点不能使用导出功能
+                this.contextMenuStrip1.Items[1].Enabled = false;
+            }
+            else
+            {
+                this.contextMenuStrip1.Items[0].Text = "打开(&O)";
+                this.contextMenuStrip1.Items[1].Enabled = true;
             }
         }
 

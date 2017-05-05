@@ -143,19 +143,20 @@
             this.打开OToolStripMenuItem1,
             this.导出UToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(119, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 70);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // 打开OToolStripMenuItem1
             // 
             this.打开OToolStripMenuItem1.Name = "打开OToolStripMenuItem1";
-            this.打开OToolStripMenuItem1.Size = new System.Drawing.Size(118, 22);
+            this.打开OToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.打开OToolStripMenuItem1.Text = "打开(&O)";
             this.打开OToolStripMenuItem1.Click += new System.EventHandler(this.打开OToolStripMenuItem1_Click);
             // 
             // 导出UToolStripMenuItem
             // 
             this.导出UToolStripMenuItem.Name = "导出UToolStripMenuItem";
-            this.导出UToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.导出UToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.导出UToolStripMenuItem.Text = "导出(&U)";
             this.导出UToolStripMenuItem.Click += new System.EventHandler(this.导出UToolStripMenuItem_Click);
             // 
