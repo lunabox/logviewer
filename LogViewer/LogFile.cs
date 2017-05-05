@@ -32,7 +32,10 @@ namespace LogViewer
                 int index = 0;
                 foreach (ZipEntry e in zFile)
                 {
-                    files[index++] = e.Name;
+                    if (e.IsFile)
+                    {
+                        files[index++] = e.Name;
+                    }
                 }
                 return files;
             }

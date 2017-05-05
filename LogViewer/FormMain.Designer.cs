@@ -38,20 +38,19 @@
             this.关于AToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripComboBoxEncoding = new System.Windows.Forms.ToolStripComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.listViewFileNames = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.pictureBoxContent = new System.Windows.Forms.PictureBox();
-            this.textBoxContent = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.打开OToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.导出UToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBoxContent = new System.Windows.Forms.PictureBox();
+            this.textBoxContent = new System.Windows.Forms.TextBox();
             this.saveFileDialogZip = new System.Windows.Forms.SaveFileDialog();
+            this.treeViewMenu = new System.Windows.Forms.TreeView();
             this.menuStrip1.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxContent)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxContent)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -128,7 +127,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.listViewFileNames);
+            this.splitContainer1.Panel1.Controls.Add(this.treeViewMenu);
             // 
             // splitContainer1.Panel2
             // 
@@ -138,25 +137,27 @@
             this.splitContainer1.SplitterDistance = 295;
             this.splitContainer1.TabIndex = 1;
             // 
-            // listViewFileNames
+            // contextMenuStrip1
             // 
-            this.listViewFileNames.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
-            this.listViewFileNames.ContextMenuStrip = this.contextMenuStrip1;
-            this.listViewFileNames.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listViewFileNames.Location = new System.Drawing.Point(0, 0);
-            this.listViewFileNames.Name = "listViewFileNames";
-            this.listViewFileNames.Size = new System.Drawing.Size(295, 606);
-            this.listViewFileNames.TabIndex = 0;
-            this.listViewFileNames.UseCompatibleStateImageBehavior = false;
-            this.listViewFileNames.View = System.Windows.Forms.View.Details;
-            this.listViewFileNames.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listViewFileNames_ItemSelectionChanged);
-            this.listViewFileNames.Resize += new System.EventHandler(this.listViewFileNames_Resize);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.打开OToolStripMenuItem1,
+            this.导出UToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(119, 48);
             // 
-            // columnHeader1
+            // 打开OToolStripMenuItem1
             // 
-            this.columnHeader1.Text = "文件名";
-            this.columnHeader1.Width = 285;
+            this.打开OToolStripMenuItem1.Name = "打开OToolStripMenuItem1";
+            this.打开OToolStripMenuItem1.Size = new System.Drawing.Size(118, 22);
+            this.打开OToolStripMenuItem1.Text = "打开(&O)";
+            this.打开OToolStripMenuItem1.Click += new System.EventHandler(this.打开OToolStripMenuItem1_Click);
+            // 
+            // 导出UToolStripMenuItem
+            // 
+            this.导出UToolStripMenuItem.Name = "导出UToolStripMenuItem";
+            this.导出UToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.导出UToolStripMenuItem.Text = "导出(&U)";
+            this.导出UToolStripMenuItem.Click += new System.EventHandler(this.导出UToolStripMenuItem_Click);
             // 
             // pictureBoxContent
             // 
@@ -182,31 +183,22 @@
             this.textBoxContent.Size = new System.Drawing.Size(588, 606);
             this.textBoxContent.TabIndex = 0;
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.打开OToolStripMenuItem1,
-            this.导出UToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(119, 48);
-            // 
-            // 打开OToolStripMenuItem1
-            // 
-            this.打开OToolStripMenuItem1.Name = "打开OToolStripMenuItem1";
-            this.打开OToolStripMenuItem1.Size = new System.Drawing.Size(118, 22);
-            this.打开OToolStripMenuItem1.Text = "打开(&O)";
-            this.打开OToolStripMenuItem1.Click += new System.EventHandler(this.打开OToolStripMenuItem1_Click);
-            // 
-            // 导出UToolStripMenuItem
-            // 
-            this.导出UToolStripMenuItem.Name = "导出UToolStripMenuItem";
-            this.导出UToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
-            this.导出UToolStripMenuItem.Text = "导出(&U)";
-            this.导出UToolStripMenuItem.Click += new System.EventHandler(this.导出UToolStripMenuItem_Click);
-            // 
             // saveFileDialogZip
             // 
             this.saveFileDialogZip.Filter = "所有文件|*.*";
+            // 
+            // treeViewMenu
+            // 
+            this.treeViewMenu.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeViewMenu.ContextMenuStrip = this.contextMenuStrip1;
+            this.treeViewMenu.HideSelection = false;
+            this.treeViewMenu.Location = new System.Drawing.Point(0, 0);
+            this.treeViewMenu.Name = "treeViewMenu";
+            this.treeViewMenu.Size = new System.Drawing.Size(292, 606);
+            this.treeViewMenu.TabIndex = 1;
+            this.treeViewMenu.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMenu_NodeMouseClick);
             // 
             // FormMain
             // 
@@ -230,8 +222,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxContent)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxContent)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -246,8 +238,6 @@
         private System.Windows.Forms.ToolStripMenuItem 关于AToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 关于AToolStripMenuItem1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ListView listViewFileNames;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.TextBox textBoxContent;
         private System.Windows.Forms.PictureBox pictureBoxContent;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBoxEncoding;
@@ -255,6 +245,7 @@
         private System.Windows.Forms.ToolStripMenuItem 打开OToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 导出UToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialogZip;
+        private System.Windows.Forms.TreeView treeViewMenu;
     }
 }
 

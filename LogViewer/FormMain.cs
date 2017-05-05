@@ -63,7 +63,7 @@ namespace LogViewer
 
         private void listViewFileNames_Resize(object sender, EventArgs e)
         {
-            this.listViewFileNames.Columns[0].Width = this.listViewFileNames.ClientSize.Width;
+            //this.listViewFileNames.Columns[0].Width = this.listViewFileNames.ClientSize.Width;
         }
 
         private void FormMain_DragDrop(object sender, DragEventArgs e)
@@ -86,27 +86,49 @@ namespace LogViewer
         {
             try
             {
+                this.treeViewMenu.Nodes.Clear();
+                TreeNode node = this.treeViewMenu.Nodes.Add(Path.GetFileName(path));
                 string[] files = logFile.GetFileNames(path);
-                updateListviewData(files);
+                updateTreeviewNodeData(this.treeViewMenu.Nodes[0], files);
                 this.Text = string.Format("LogView - {0}", path);
                 return true;
             }
-            catch
+            catch (Exception e)
             {
-                MessageBox.Show("解析文件错误，请检测是否是zip格式的文件", "错误警告", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("解析文件错误，请检测是否是zip格式的文件\n" + e.Message, "错误警告", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
 
-        private void updateListviewData(string[] fileNames)
+        /// <summary>
+        /// 更新某个节点的数据
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="fileNames"></param>
+        private void updateTreeviewNodeData(TreeNode node, string[] fileNames)
         {
-            this.listViewFileNames.BeginUpdate();
-            this.listViewFileNames.Items.Clear();
+            this.treeViewMenu.BeginUpdate();
+            node.Nodes.Clear();
             foreach (string file in fileNames)
             {
-                this.listViewFileNames.Items.Add(file);
+                if (file == null)
+                    continue;
+                string dir = Path.GetDirectoryName(file);
+                if (dir != "")
+                {
+                    if (!node.Nodes.ContainsKey(dir))
+                    {
+                        node.Nodes.Add(dir, dir);
+                    }
+                    node.Nodes[dir].Nodes.Add(Path.GetFileName(file)).Tag = file;
+                }
+                else
+                {
+                    // 根目录显示的文件
+                    node.Nodes.Add(file).Tag = file;
+                }
             }
-            this.listViewFileNames.EndUpdate();
+            this.treeViewMenu.EndUpdate();
         }
 
         private void FormMain_DragEnter(object sender, DragEventArgs e)
@@ -115,14 +137,6 @@ namespace LogViewer
                 e.Effect = DragDropEffects.All;
             else
                 e.Effect = DragDropEffects.None;
-        }
-
-        private void listViewFileNames_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
-        {
-            if (e.ItemIndex >= 0)
-            {
-                parser(e.Item.Text);
-            }
         }
 
         private void parser(string fileName)
@@ -199,9 +213,10 @@ namespace LogViewer
 
         private void 打开OToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            if (this.listViewFileNames.SelectedItems.Count > 0)
+            // 选择的节点是叶子节点
+            if (this.treeViewMenu.SelectedNode.Nodes.Count == 0)
             {
-                string name = this.listViewFileNames.SelectedItems[0].Text;
+                string name = this.treeViewMenu.SelectedNode.Tag.ToString();
                 parser(name);
             }
             
@@ -209,15 +224,16 @@ namespace LogViewer
 
         private void 导出UToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (this.listViewFileNames.SelectedItems.Count > 0)
+            // 叶子节点
+            if (this.treeViewMenu.SelectedNode.Nodes.Count == 0)
             {
-                string name = this.listViewFileNames.SelectedItems[0].Text;
+                string name = this.treeViewMenu.SelectedNode.Text;
                 this.saveFileDialogZip.FileName = name;
                 if (this.saveFileDialogZip.ShowDialog() == DialogResult.OK)
                 {
                     string filename = this.saveFileDialogZip.FileName;
                     FileStream outs = new FileStream(filename, FileMode.Create, FileAccess.Write);
-                    Stream ins = logFile.GetFileStream(name);
+                    Stream ins = logFile.GetFileStream(this.treeViewMenu.SelectedNode.Tag.ToString());
                     byte[] buffer = new byte[1024];
                     int len = ins.Read(buffer, 0, buffer.Length);
                     while (len > 0)
@@ -227,6 +243,23 @@ namespace LogViewer
                     }
                     outs.Close();
                     ins.Close();
+                }
+            }
+        }
+
+        private void treeViewMenu_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.Nodes.Count == 0)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    // 叶子节点，左键点击
+                    parser(e.Node.Tag.ToString());
+                }
+                else
+                {
+                    // 非左键的时候，选中状态
+                    this.treeViewMenu.SelectedNode = e.Node;
                 }
             }
         }
